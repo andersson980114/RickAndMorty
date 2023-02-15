@@ -1,0 +1,19 @@
+{
+  "name": "rickandmorty",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./public/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SebastianGamez/RickAndMorty---MarketMix.git"
+  },
+  "author": "Sebastián G. && Anderson C.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SebastianGamez/RickAndMorty---MarketMix/issues"
+  },
+  "homepage": "https://github.com/SebastianGamez/RickAndMorty---MarketMix#readme"
+}
