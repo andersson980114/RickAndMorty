@@ -28,13 +28,17 @@
                             <div class="px-5 pt-3">
 
                                 <div class="form-outline mb-4">
-                                    <label class="form-label" for="typeEmailX-2">Username</label>
+                                    <div class="row justify-content-start ml-2  ">
+                                        <label class="form-label text-white" for="typeEmailX-2">Username:</label>
+                                    </div>
                                     <input placeholder="username" v-model="username"
                                     type="text"  class="form-control form-control-lg borde" />
                                 </div>
                     
                                 <div class="form-outline mb-4">
-                                    <label class="form-label" for="typePasswordX-2">Password</label>
+                                    <div class="row justify-content-start ml-2  ">
+                                        <label class="form-label text-white" for="typeEmailX-2">Password:</label>
+                                    </div>
                                     <input placeholder="*******" v-model="password" type="password"  class="form-control form-control-lg" />
                                 </div> 
                                 <div v-if="error" class="form-outline mb-4 text-danger">
