@@ -23,7 +23,7 @@
                 <!--Coins data-->
                 <div class="head-coins d-flex flex-row ">
                     <div class="coins-info">
-                        <h4 class="info-value--coins text-success">$00</h4>
+                        <h4 class="info-value--coins text-success">$00</h4> 
                         <a class="info-add--coins btn btn-success rounded-5">+Coins</a>
                     </div>
                     <div class="coins-image">
@@ -38,56 +38,32 @@
             <!--Cards-->
             <div class="cards-content m-5">
                 <!--Card to buy-->
-                <div class="content-card">
+                <div class="content-card" v-for="card in cards">
                     <!--Card image-->
                     <div class="card-image">
-                        <img class="image-image--card" src="../src/assets/images/character.png" alt="character" />
+                        <img class="image-image--card" :src="card.image" alt="character" />
                     </div>
                     <!--Card info-->
                     <div class="card-info">
                         <div class="info-name d-flex flex-row">
                             <p class="name-label--card">Nombre:</p>
-                            <p class="name-value--card">{{name}}</p>
+                            <p class="name-value--card"><b>{{card.name}}</b></p>
                         </div>
                         <div class="info-rarity d-flex flex-row">
-                            <p class="rarity-label--card">Dimensión:</p>
-                            <p class="rarity-value--card">{{world}}</p>
+                            <p class="rarity-label--card">Mundo:</p>
+                            <p class="rarity-value--card"><b>{{card.location.name}}</b></p>
                         </div>
                         <div class="info-type d-flex flex-row">
-                            <p class="type-label--card">Valor:</p>
-                            <p class="type-value--card">{{value}}</p>
+                            <p class="type-label--card">Precio:</p>
+                            <p class="type-value--card"><b>{{card.price}}</b></p>
                         </div>
                     </div>
                     <!--Card button-->
                     <div class="card-button">
-                        <button class="button-button--card btn btn-success">Comprar</button>
+                        <button class="button-button--card btn btn-success" v-if="card.isSeller">Comprar</button>
+                        <button class="button-button--card btn btn-danger" v-else>Pujar</button>
                     </div> 
                 </div>
-                <!--Card to auction-->
-                <div class="content-card">
-                    <!--Card image-->
-                    <div class="card-image">
-                        <img class="image-image--card" src="../src/assets/images/character.png" alt="character" />
-                    </div>
-                    <!--Card info-->
-                    <div class="card-info">
-                        <div class="info-name d-flex flex-row">
-                            <p class="name-label--card">Nombre:</p>
-                            <p class="name-value--card">{{name}}</p>
-                        </div>
-                        <div class="info-rarity d-flex flex-row">
-                            <p class="rarity-label--card">Dimensión:</p>
-                            <p class="rarity-value--card">{{world}}</p>
-                        </div>
-                        <div class="info-type d-flex flex-row">
-                            <p class="type-label--card">Valor:</p>
-                            <p class="type-value--card">{{value}}</p>
-                        </div>
-                    </div>
-                    <!--Card button-->
-                    <div class="card-button">
-                        <button class="button-button--card btn btn-danger">Entrar</button>
-                    </div> 
                 </div>
             </div>
         </section>
@@ -98,4 +74,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
 <!--Vue scripts-->
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<!--Custom scripts-->
+<script src="../src/collection.js"></script>
 </html>
