@@ -19,19 +19,20 @@ const app = new Vue({
             this.registrado = false
             this.error = false
             this.mensaje = ""
-            if(this.users != null){
+            //if(this.users != null){
                 this.users.map((user, index) => {   
-                     
+                        console.log(user)
                         if(user.username === this.username && user.password === this.password){
                             localStorage.setItem('user', JSON.stringify(user))
                             this.logueo = true
                             this.error=false
-                            window.location = "perfil.html"
+                            localStorage.setItem('rol', JSON.stringify(user.username))
+                            window.location = "collection.html"
                         
                         }  
                     }
                 ) 
-            }  
+            //}  
 
             if(this.logueo===false ){
                 this.error = true
@@ -44,6 +45,7 @@ const app = new Vue({
             this.registrado = false
             this.error = false
             this.mensaje = ""
+            console.log(this.error, this.mensaje)
             //verificar que no esté registrado
             if(this.username === undefined || this.password === undefined || this.nombre === undefined ||this.email ===undefined || this.telefono === undefined){
                 this.error = true
@@ -71,15 +73,23 @@ const app = new Vue({
                     }
                     console.log(this.user)
                     this.users.push(this.user)
-                    localStorage.setItem("user", JSON.stringify(this.users));
+                    //localStorage.setItem("user", JSON.stringify(this.users));
                     localStorage.setItem('users', JSON.stringify(this.users))
-                    window.location = "perfil.html"
+                    this.username = undefined
+                    this.password = undefined
+                    this.email = undefined
+                    this.telefono = undefined
+                    this.nombre = undefined
+                    //window.location = "collection.html"
                 }
 
             }
 
         },
         abrir(){
+            this.registrado = false
+            this.error = false
+            this.mensaje = ""
             this.showRegister= true
         },
         cerrar(){
@@ -90,7 +100,11 @@ const app = new Vue({
       
     },
     created(){ 
-             
+        let usuarios = JSON.parse(localStorage.getItem('users'))
+        
+        if(usuarios != null){
+            this.users = usuarios
+        }
          
     },
     
