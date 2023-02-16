@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="../src/styles/collection.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <title>Mi Colección</title>
+    
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <main id="app" class="body-main">
@@ -60,8 +62,8 @@
                         </div>
                     </div>
                     <!--Card button-->
-                    <div class="card-button">
-                        <button class="button-button--card btn btn-success" v-if="card.isSeller">Comprar</button>
+                    <div class="card-button"> 
+                        <button class="button-button--card btn btn-success" v-if="card.isSeller" @click="comprarCarta(card)">Comprar</button>
                         <button class="button-button--card btn btn-danger" v-else>Pujar</button>
                     </div> 
                 </div>

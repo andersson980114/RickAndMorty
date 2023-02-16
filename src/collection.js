@@ -138,31 +138,123 @@ const app = createApp({
                 this.error= true
                 this.mensaje = 'Asegurese de llenar todos los campos'
             }else{
-                
-                console.log(this.promoSelect.valor )
-                this.user.coins += this.promoSelect.cantidad
-                this.mensaje = 'Compra realizada exitosamente de ' + this.promoSelect.cantidad + ' coins'
-                
-                localStorage.setItem('user', JSON.stringify(this.user))
-                
-                this.actualizar()
-                this.metodo = undefined
-                this.numTarjet = undefined
-                this.fechaCad = undefined
-                this.ccv = undefined
-                this.valor = undefined
                 this.showModal = false
-                this.showPasarela= false 
-                this.showCoins= false 
+                        this.showPasarela= false 
+                        this.showCoins= false 
+                Swal.fire({
+                    title: '¿Está usted seguro?',
+                    text: "¿Está usted seguro de realizar esta compra?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si estoy seguro'
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                        console.log(this.promoSelect.valor )
+                        this.user.coins += this.promoSelect.cantidad
+                        this.mensaje = 'Compra realizada exitosamente de ' + this.promoSelect.cantidad + ' coins'
+                        
+                        localStorage.setItem('user', JSON.stringify(this.user))
+                        
+                        this.actualizar()
+                        this.metodo = undefined
+                        this.numTarjet = undefined
+                        this.fechaCad = undefined
+                        this.ccv = undefined
+                        this.valor = undefined
+                        
+                      Swal.fire(
+                        'Compra realizada!',
+                        'Ha terminado la compra de Coins exitosamente',
+                        'success'
+                      )
+                    }
+                  })
             }
            
         },
+
+        comprarCarta(card){ 
+            var today = new Date()
+            if(this.user.coins > 0){
+                if(this.user.coins >= card.price){
+                    Swal.fire({
+                        title: '¿Está usted seguro?',
+                        text: "¿Está seguro de realizar esta compra?",
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '¡Si, estoy seguro!'
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                            card.fechaCompra = today.toLocaleString()
+                            this.mensaje= "felicidades, carta comprada"
+                            this.user.coins -= card.price
+                            this.user.cards.push(card)
+                            this.actualizar()
+                          Swal.fire(
+                            'Completado!',
+                            'Su compra se ha realizado exitosamente',
+                            'success'
+                          )
+                        }
+                      })
+                }else{
+                    Swal.fire({
+                        title: 'Coins insuficientes',
+                        text: "no tiene los coins suficientes para realizar la compra",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Comprar Coins'
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.abrirCoins()
+                        }
+                      }) 
+                }
+            }else{
+                Swal.fire({
+                    title: 'Coins insuficientes',
+                    text: "no tiene coins para realizar la compra",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Comprar Coins'
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.abrirCoins()
+                    }
+                  }) 
+                 
+            } 
+            this.actualizar()
+        },
+
+        //actualiza los datos del usuario en el local storage y cierra sesión
         logout(){
             this.actualizar()
-            this.user = null
-            localStorage.setItem('user', JSON.stringify(this.user))
-            window.location = "index.html"
+            Swal.fire({
+                title: 'Cerrar sesión',
+                text: "¿Está usted seguro que quiere cerrar sesión?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si estoy seguro'
+              }).then((result) => {
+                if (result.isConfirmed) { 
+                    this.user = null
+                    localStorage.setItem('user', JSON.stringify(this.user))
+                    window.location = "index.html"
+                }
+              }) 
         },
+        //metodo usado para actualizar los datos del usuario en el local storage
         actualizar(){
             let users = JSON.parse(localStorage.getItem('users'))
             localStorage.setItem('user', JSON.stringify(this.user))
@@ -178,6 +270,7 @@ const app = createApp({
       
     },
     created(){
+        //asegurarse que esté un usuario logueado
         if(this.user ===null){
             window.location = "index.html"
         }

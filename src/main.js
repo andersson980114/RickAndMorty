@@ -1,3 +1,4 @@
+ 
 const app = new Vue({
     el: '#app',
     data:{
@@ -36,6 +37,11 @@ const app = new Vue({
             if(this.logueo===false ){
                 this.error = true
                 this.mensaje = "Username o password incorrectos"
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error de Login',
+                    text: 'Asegurese de que el Username y Password sean correctos', 
+                  })
             }else{
                 this.mensaje="logueado"
             }
@@ -81,9 +87,14 @@ const app = new Vue({
                     this.email = undefined
                     this.telefono = undefined
                     this.nombre = undefined
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Registro exitoso',
+                        text: '"Usuario registrado exitosamente"',
+                      }) 
                     //window.location = "collection.html"
                 }
-
+                
             }
 
         },
