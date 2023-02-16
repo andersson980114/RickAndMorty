@@ -142,18 +142,38 @@ const app = createApp({
                 console.log(this.promoSelect.valor )
                 this.user.coins += this.promoSelect.cantidad
                 this.mensaje = 'Compra realizada exitosamente de ' + this.promoSelect.cantidad + ' coins'
-               
+                
+                localStorage.setItem('user', JSON.stringify(this.user))
+                
+                this.actualizar()
+                this.metodo = undefined
+                this.numTarjet = undefined
+                this.fechaCad = undefined
+                this.ccv = undefined
+                this.valor = undefined
                 this.showModal = false
                 this.showPasarela= false 
-                this.showCoins= false
-
+                this.showCoins= false 
             }
            
         },
         logout(){
+            this.actualizar()
             this.user = null
             localStorage.setItem('user', JSON.stringify(this.user))
             window.location = "index.html"
+        },
+        actualizar(){
+            let users = JSON.parse(localStorage.getItem('users'))
+            localStorage.setItem('user', JSON.stringify(this.user))
+
+            users.map((item, index) => {
+                if(item.username === this.user.username && item.email === this.user.email){
+                    users[index] = this.user
+                }
+            })
+            localStorage.setItem('users', JSON.stringify(users))
+
         }
       
     },
