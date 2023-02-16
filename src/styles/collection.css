@@ -7,7 +7,7 @@
 }
 
 p{
-    font-size: 10px;
+    font-size: 12px;
 }
 
 .body-main{
@@ -52,7 +52,7 @@ p{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: flex-start;
     background-color: #D9D9D9;
     overflow-y: scroll;
@@ -62,7 +62,7 @@ p{
 
 .content-card{
     width: 170px;
-    height: 270px;
+    min-height: 360px;
     background-color: #0E0B36;
     border: 2px solid white;
     border-radius: 15px;
@@ -95,7 +95,6 @@ p{
 }
 
 .card-button{
-    position: absolute;
     bottom: 5px;
 }
 
