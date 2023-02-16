@@ -11,6 +11,51 @@ const app = createApp({
         return {
             // cards
             cards: [],
+            coinsUser: 0, //
+            showModal: false,
+            showCoins:false,
+            showPasarela: false,
+            promoSelect: undefined,
+            metodo: undefined,
+            numTarjet: undefined,
+            fechaCad: undefined,
+            ccv: undefined,
+            valor: undefined,
+            mensaje: "",
+            error: false,
+            user: JSON.parse(localStorage.getItem('user')),
+            promoCoins: [
+                {
+                    id: 0,
+                    image: '../src/assets/images/morty_coin.png',
+                    valor: 1.99,
+                    cantidad: 100
+                },
+                {
+                    id: 1,
+                    image: '../src/assets/images/morty_coins.png',
+                    valor: 2.99,
+                    cantidad: 200
+                },
+                {
+                    id: 2,
+                    image: '../src/assets/images/morty_coinss.png',
+                    valor: 3.99,
+                    cantidad: 500
+                },
+                {
+                    id: 3,
+                    image: '../src/assets/images/morty_money.png',
+                    valor: 6.99,
+                    cantidad: 1000
+                },
+                {
+                    id: 4,
+                    image: '../src/assets/images/morty_baul.png',
+                    valor: 9.99,
+                    cantidad: 5000
+                },
+            ]
         }
     },
     // Mounted
@@ -61,7 +106,62 @@ const app = createApp({
             // log the cards
             console.log(this.cards);
         },
+        //funicones para abrir y cerrar modales
+        abrirCoins(){
+            this.showModal = true
+            this.showCoins= true
+        },
+        cerrarCoins(){
+            
+            this.showModal = false
+            this.showCoins= false
+        },  
+        abrirPasar(index){
+            
+            this.showModal = true
+            this.showCoins= false
+            console.log(index )
+            this.valor = index.valor
+            this.promoSelect = index
+            this.error =false
+            this.promoId = index
+            this.showPasarela= true
+        },
+        cerrarPasar(){
+            this.promoSelect = undefined 
+            this.showPasarela= false 
+            this.showCoins= true
+        },
+        pasaFinish(){ 
+            
+            if(this.numTarjet === undefined || this.fechaCad === undefined || this.ccv === undefined || this.valor === undefined || this.metodo === undefined ){
+                this.error= true
+                this.mensaje = 'Asegurese de llenar todos los campos'
+            }else{
+                
+                console.log(this.promoSelect.valor )
+                this.user.coins += this.promoSelect.cantidad
+                this.mensaje = 'Compra realizada exitosamente de ' + this.promoSelect.cantidad + ' coins'
+               
+                this.showModal = false
+                this.showPasarela= false 
+                this.showCoins= false
+
+            }
+           
+        },
+        logout(){
+            this.user = null
+            localStorage.setItem('user', JSON.stringify(this.user))
+            window.location = "index.html"
+        }
+      
     },
+    created(){
+        if(this.user ===null){
+            window.location = "index.html"
+        }
+    }
 });
 
 // Mounting the app

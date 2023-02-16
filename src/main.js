@@ -69,6 +69,7 @@ const app = new Vue({
                         'email': this.email,
                         'telefono': this.telefono,
                         'nombre': this.nombre,
+                        'coins': 0
                     }
                     console.log(this.user)
                     this.users.push(this.user)
