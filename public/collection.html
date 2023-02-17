@@ -190,11 +190,11 @@
                                                                 <button class="btn btn-success" @click="auction()">Pujar</button>
                                                             </div>
                                                         </div>
-                                                        <div v-if="error" class="row text-center text-danger pt-5">
-                                                           
-                                                            
+                                                        <div v-if="error" class="row text-center text-danger pt-5"> 
                                                             <h3 class="form-label text-danger" > <i class="fa-solid fa-circle-exclamation text-danger"></i> {{mensaje}}</h3>
-                                                        
+                                                        </div>
+                                                        <div v-if="puja" class="row text-center text-danger pt-5"> 
+                                                            <h3 class="form-label text-primary" > </i> {{mensaje}}</h3>
                                                         </div>
                                                     </div>
                                                 </div>

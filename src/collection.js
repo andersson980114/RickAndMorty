@@ -15,6 +15,7 @@ const app = createApp({
             coinsUser: 0, //
             valorPuja:0,
             contPujas: 0,
+            puja:false,
             showModal: false,
             showCoins:false,
             showPasarela: false,
@@ -130,6 +131,8 @@ const app = createApp({
             this.showPasarela= true
         },
         abrirPuja(card){  
+            this.error=false
+            this.mensaje = ''
             if(this.user.coins > 0 && this.user.coins>card.price){
                 this.contPujas = this.getRandomInt(0, 5);
                 this.valorPuja = card.price + this.getRandomInt(1, 50);
@@ -154,6 +157,8 @@ const app = createApp({
             
         },
         cerrarPuja(){
+            this.error=false
+            this.mensaje = ''
             this.showModal = false
             this.showPuja= false
         },
@@ -208,7 +213,7 @@ const app = createApp({
         // Start the auction
         auction(){ 
             let card = this.card 
-
+            this.puja= false
                 if( this.user.coins-this.valorPuja>=0  && this.user.coins-card.price>=0){
                     console.log("coins suficientes")
                     if(this.user.coins >= card.price){
@@ -221,9 +226,12 @@ const app = createApp({
                                 setTimeout(() => {
                                     console.log("Aumentando el precio de la carta")
                                     this.contPujas--
+    
+                                    this.valorPuja = card.price + this.getRandomInt(1, 50);
                                     card.price = this.valorPuja;
                                     this.valorPuja = card.price + this.getRandomInt(1, 50);
-                                    //console.log("Mensaje de puja realizada")
+                                    this.puja= true
+                                    this.mensaje = "Puja realizada"
                                 }, 3000);
                             }else{
                                 this.cerrarPuja()
@@ -263,7 +271,8 @@ const app = createApp({
             
                 if(error === false){
                     
-                this.valorPuja = card.price + this.getRandomInt(1, 50);
+                    this.valorPuja = card.price + this.getRandomInt(1, 50);
+                    card.price = this.valorPuja
                 }
              
         },
