@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Bootstrap styles-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <!--Custom styles-->
+    <link rel="stylesheet" href="../src/styles/collection.css">
+    <link rel="stylesheet" href="../src/styles/profile.css">
+    <title>Mi Colección</title>
+    
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <main id="app" class="body-main">
+        <!--Available cards-->
+        <section class="main-cards">
+            <!--Username and coins data-->
+            <div class="cards-head w-100 d-flex flex-row justify-content-between p-3" >
+                 <div>
+                    <!--Back button-->
+                    <a class="head-back btn btn-danger text-light" @click="logout()">
+                        Logout
+                    </a>
+                    <!--Username-->
+                    <h3 class="head-username mx-4 pt-2 ">{{user.username}}</h3>
+                 </div>
+                 
+            </div>
+            <!--Cards section title-->
+            <div class="cards-title px-5">
+                <h3 class="text-light"><b>Cartas disponibles:</b></h3>
+            </div>
+            <!--Cards options-->
+            <div class="cards-options container d-flex flex-row mx-5">
+                <button class="mx-2 btn btn-danger" @click="toggleHistory">Historial</button>
+                <a href="collection.html" class="mx-2 btn btn-primary">Comprar</a>
+            </div>
+            <!--Cards-->
+            <div class="cards-content m-5">
+                <!--Card to buy-->
+                <div class="content-card" v-for="card in cards">
+                    <!--Card image-->
+                    <div class="card-image justify-content-between">
+                        <div class="blockquote-custom-icon bg-primary shadow-1-strong" v-if="card.cantidad"> 
+                            +{{card.cantidad}}
+                        </div> 
+                        <div class="card-image "> 
+                            <img class="image-image--card" :src="card.image" alt="character" />
+                        </div>
+                    </div>
+                    <!--Card info-->
+                    <div class="card-info">
+                        <div class="info-name d-flex flex-row">
+                            <p class="name-label--card">Nombre:</p>
+                            <p class="name-value--card"><b>{{card.name}}</b></p>
+                        </div>
+                        <div class="info-rarity d-flex flex-row">
+                            <p class="rarity-label--card">Mundo:</p>
+                            <p class="rarity-value--card"><b>{{card.location.name}}</b></p>
+                        </div>
+                    </div>
+                    <!--Card button-->
+                    <div class="card-button"> 
+                        <div class="info-type d-flex flex-row justify-content-center align-items-center">
+                            <p class="type-value--card bg-success rounded px-4 py-2"><b>${{card.price}}</b></p>
+                        </div>
+                    </div> 
+                </div>
+                </div>
+            </div>
+        </section>
+  
+        <!--History modal-->
+        <section class="main-history" v-if="render.history">
+            <div class="history-screen">
+                <!--Close-->
+                <div class="screen-close">
+                    <button class="btn btn-danger" @click="toggleHistory">X</button>
+                </div>
+                <!--History title-->
+                <div class="screen-title">
+                    <h3><b class="text-dark">Mis compras</b></h3>
+                </div>
+                <!--History table-->
+                <div class="screen-table">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col"><b class="text-dark">Foto</b></th>
+                                <th scope="col"><b class="text-dark">Nombre</b></th>
+                                <th scope="col"><b class="text-dark">Fecha</b></th>
+                                <th scope="col"><b class="text-dark">Precio</b></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="card in user.cards">
+                                <td><img class="rounded" :src="card.image" :alt="card.name" height="50"/></td>
+                                <td class="text-dark">{{card.name}}</td>
+                                <td class="text-dark">${{card.price}}</td>
+                                <td class="text-dark">{{card.fechaCompra}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!--Swal-->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!--Bootstrap scripts-->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+    <!--Vue scripts-->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!--Custom scripts-->
+    <script src="../src/profile.js"></script>
+</body>

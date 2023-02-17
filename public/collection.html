@@ -8,7 +8,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <!--Custom styles-->
     <link rel="stylesheet" href="../src/styles/collection.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <title>Mi Colección</title>
+    
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <main id="app" class="body-main">
@@ -17,14 +20,14 @@
             <!--Back button and coins data-->
             <div class="cards-head w-100 d-flex flex-row justify-content-between p-3" >
                 <!--Back button-->
-                <a class="head-back btn btn-danger text-light">
+                <a class="head-back btn btn-danger text-light" @click="logout()">
                    Atrás
                 </a>
                 <!--Coins data-->
                 <div class="head-coins d-flex flex-row ">
                     <div class="coins-info">
-                        <h4 class="info-value--coins text-success">$00</h4> 
-                        <a class="info-add--coins btn btn-success rounded-5">+Coins</a>
+                        <h4 class="info-value--coins text-success">$ {{user.coins}}</h4> 
+                        <a class="info-add--coins btn btn-success rounded-5" @click="abrirCoins()">+Coins</a>
                     </div>
                     <div class="coins-image">
                         <span class="image-image--coins"/>
@@ -59,14 +62,228 @@
                         </div>
                     </div>
                     <!--Card button-->
-                    <div class="card-button">
-                        <button class="button-button--card btn btn-success" v-if="card.isSeller">Comprar</button>
-                        <button class="button-button--card btn btn-danger" v-else>Pujar</button>
+                    <div class="card-button"> 
+                        <button class="button-button--card btn btn-success" v-if="card.isSeller" @click="comprarCarta(card)">Comprar</button>
+                        <button class="button-button--card btn btn-danger" v-else  @click="abrirPuja(card)">Pujar</button>
                     </div> 
                 </div>
                 </div>
             </div>
         </section>
+
+        <!--Modales-->
+        <!-- Modal Coins -->
+        <div v-if="showModal">
+            <transition name="modal ">
+                <div class="modal-mask px-5">
+                    <div class="modal-wrapper px-5"> 
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content  px-4"  >
+                                <!-- body coins-->
+                                <div class="modal-body rounded-4 px-4" style="background-color: #D9D9D9 ;" v-if="showCoins"> 
+                                    <div class="row justify-content-end   "> 
+                                        <button  @click="cerrarCoins()"
+                                        type="button" class="btn-close text-end pt-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+
+                                    <div  class="col text-dark">
+                                        <h2 style="text-align: center;">Comprar Coins</h2>
+                                    </div>  
+                                    <br>
+
+                                    <div > 
+                                        <div class="row  justify-content-center "  >
+                                            <div class="col-12 col-md-11 col-lg-7">
+                                                <div class="row justify-content-center"> 
+                                                    <div class="col-12 col-md-5 col-lg-4" v-for="(coin, index) in promoCoins" :key="index"  >
+                                                        <div class="row px-4 mx-4  px-md-0 mx-md-0 pt-2 pb-4">
+                                                            <div class="card col-lg-12 col-md-10 col-8 text-center px-2 text-dark rounded-5" style="background-color: #AFADAD;  " > 
+                                                                <img :src="coin.image"  style="height: 8em; object-fit:  scale-down;">
+                                                                <div class="card-body">
+                                                                    <h5 class="card-title">{{coin.cantidad}} coins</h6>
+                                                                    <h6 class="card-text">$ {{coin.valor}} USD</h5>
+                                                                    <a href="#" class="btn btn-success rounded-5" @click="abrirPasar(coin)">comprar</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                        
+                                </div>
+
+                                
+
+                                <!--Body Subasta--> 
+                                <div class="modal-body rounded-4 px-4" style="background-color: #D9D9D9 ;" v-if="showPuja"> 
+                                    <div class="row justify-content-end   "> 
+                                        <button  @click="cerrarPuja()"
+                                        type="button" class="btn-close text-end pt-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+
+                                    <div  class="col text-dark">
+                                        <h2 style="text-align: center;">Subasta</h2>
+                                    </div>  
+                                    <br>
+
+                                    <div > 
+                                        <div class="row  justify-content-center "  >
+                                            <div class="col-12 col-md-11 col-lg-7 ">
+                                                <div class="row pb-2"> 
+                                                    <!--Carta--> 
+                                                    <div class="content-card" >
+                                                        <!--Card image-->
+                                                        <div class="card-image" >
+                                                            <img class="image-image--card" :src="card.image" alt="character" /> 
+                                                        </div>
+                                                        <!--Card info-->
+                                                        <div class="card-info">
+                                                            <div class="info-name d-flex flex-row">
+                                                                <p class="name-label--card">Nombre:</p>
+                                                                <p class="name-value--card"><b> {{card.name}}</b></p>
+                                                            </div>
+                                                            <div class="info-rarity d-flex flex-row">
+                                                                <p class="rarity-label--card">Mundo:</p>
+                                                                <p class="rarity-value--card"><b>{{card.location.name}}</b></p>
+                                                            </div> 
+                                                        </div> 
+                                                    </div> 
+                                                    <!--Precio actual-->
+                                                    <div class="col">
+                                                        <div class="row pb-5">
+                                                            <div class="col-6 ">
+                                                                <div class="row">
+                                                                    <h2 class="text-dark text-center"> Precio Actual</h2>
+                                                                </div>
+                                                                <div class="row pt-4">
+                                                                    <div class="col p-0 m-0">
+                                                                        <h3 class="text-dark text-end">$ {{card.price}}</h3>
+                                                                    </div>
+                                                                    <div class="col px-2 m-0">
+                                                                        <img :src="promoCoins[0].image"  style="height: 3em; object-fit:  scale-down;">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--Puja-->
+                                                            <div class="col-6 ">
+                                                                <div class="row">
+                                                                    <h2 class="text-dark text-center"> Nueva Puja</h2>
+                                                                </div>
+                                                                <div class="row pt-4">
+                                                                    <div class="col p-0 m-0">
+                                                                        <h3 class="text-dark text-end">$ {{valorPuja}}</h3>
+                                                                    </div>
+                                                                    <div class="col px-2 m-0">
+                                                                        <img :src="promoCoins[0].image"  style="height: 3em; object-fit:  scale-down;">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row text-center pt-5">
+                                                            <div class="col-6 rounded-5">
+                                                                 <button class="btn btn-danger" @click="cerrarPuja()">Salir</button>
+                                                            </div> 
+                                                            <div class="col-6 rounded-5">
+                                                                <button class="btn btn-success" @click="auction()">Pujar</button>
+                                                            </div>
+                                                        </div>
+                                                        <div v-if="error" class="row text-center text-danger pt-5"> 
+                                                            <h3 class="form-label text-danger" > <i class="fa-solid fa-circle-exclamation text-danger"></i> {{mensaje}}</h3>
+                                                        </div>
+                                                        <div v-if="puja" class="row text-center text-danger pt-5"> 
+                                                            <h3 class="form-label text-primary" > </i> {{mensaje}}</h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                        
+                                </div>
+
+
+                                <!--Body pasarela--> 
+                                <div v-if="showPasarela">
+                                    <div class="row  justify-content-center px-0  ">
+                                        <div class="col-lg-3 col-md-6 col-sm-4 rounded-4  px-4" style="background-color: #D9D9D9 ;">
+                                            <div class="row justify-content-end   "> 
+                                                <button  @click="cerrarPasar()"
+                                                type="button" class="btn-close text-end pt-3 " data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div  class="col text-dark">
+                                                <h2 style="text-align: center;">Metodo de Pago</h2>
+                                            </div> 
+                                            <br>
+                                            <div class="form-outline mb-2 px-4  ">
+                                                <label class="form-label text-dark">Metodo de Pago</label>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <button class="btn btn-light" @click="metodo='Master Card'">
+                                                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/200px-MasterCard_Logo.svg.png" width="60" />
+                                                        </button>
+                                                    </div>
+                                                    <div class="col">
+                                                        <button class="btn btn-light" @click="metodo='Visa'">
+                                                            <img src="https://laruecol.com/wp-content/uploads/2022/08/Visa-Logo-1976.png" width="60" />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <input placeholder="" v-model="metodo" disabled="disabled"
+                                                type="text"  class="form-control form-control-sm borde mt-2" />
+                                                
+                                            </div>
+                                            <div class="form-outline mb-2 px-4  ">
+                                                <label class="form-label text-dark">Numero de la Tarjeta</label>
+                                                <input placeholder="xxxx-xxxx-xxxx-xxxx" v-model="numTarjet"
+                                                type="number"  class="form-control form-control-sm borde" />
+                                            </div>
+                                            <div class="form-outline mb-2 px-4  ">
+                                                <label class="form-label text-dark" for="typeEmailX-2">Fecha de Caducidad</label> 
+                                                <div class=""> 
+                                                    <input id="startDate" class="form-control" type="date" v-model="fechaCad"/>
+                                                    <span id="startDateSelected"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-outline mb-2 px-4  ">
+                                                <label class="form-label text-dark" >CVV</label>
+                                                <input placeholder="xxxx" v-model="ccv"
+                                                type="number"  class="form-control form-control-sm borde" />
+                                            </div>
+                                            <div class="form-outline mb-2 px-4  ">
+                                                <label class="form-label text-dark" >Valor</label>
+                                                <input placeholder="$000" v-model="valor"  disabled="disabled"
+                                                type="number"  class="form-control form-control-sm borde" />
+                                            </div>
+                                            <div v-if="error" class="form-outline mb-4 text-danger">
+                                                <i class="fa-solid fa-circle-exclamation text-danger"></i> 
+                                                <label class="form-label text-danger" > {{mensaje}}</label>
+                                            
+                                            </div>
+                                            <div class="form-outline mb-2 px-4 text-center ">
+                                                <a href="#" class="btn btn-info text-white" @click="pasaFinish()">Confirmar</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                          
+
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </transition>
+        </div>
+         
+        
+         
+                                 
+    
+
     </main>
 </body>
 <!--Bootstrap scripts-->
@@ -75,5 +292,5 @@
 <!--Vue scripts-->
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <!--Custom scripts-->
-<script src="../src/collection.js"></script>
+<script src="../src/collection.js"></script> 
 </html>

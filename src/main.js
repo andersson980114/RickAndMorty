@@ -1,8 +1,9 @@
+ 
 const app = new Vue({
     el: '#app',
     data:{
       users: [],
-      user: JSON.parse(localStorage.getItem('user')),
+      user: undefined,
       username: undefined,
       password: undefined,
       email: undefined,
@@ -19,24 +20,28 @@ const app = new Vue({
             this.registrado = false
             this.error = false
             this.mensaje = ""
-            //if(this.users != null){
+            if(this.users != null){
                 this.users.map((user, index) => {   
-                        console.log(user)
+                        
                         if(user.username === this.username && user.password === this.password){
                             localStorage.setItem('user', JSON.stringify(user))
                             this.logueo = true
-                            this.error=false
-                            localStorage.setItem('rol', JSON.stringify(user.username))
-                            window.location = "collection.html"
+                            this.error=false 
+                            window.location = "profile.html"
                         
                         }  
                     }
                 ) 
-            //}  
+            }  
 
             if(this.logueo===false ){
                 this.error = true
                 this.mensaje = "Username o password incorrectos"
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error de Login',
+                    text: 'Asegurese de que el Username y Password sean correctos', 
+                  })
             }else{
                 this.mensaje="logueado"
             }
@@ -70,19 +75,26 @@ const app = new Vue({
                         'email': this.email,
                         'telefono': this.telefono,
                         'nombre': this.nombre,
+                        'coins': 0,
+                        'cards': []
                     }
                     console.log(this.user)
                     this.users.push(this.user)
-                    //localStorage.setItem("user", JSON.stringify(this.users));
+                    //localStorage.setItem("user", JSON.stringify(this.user));
                     localStorage.setItem('users', JSON.stringify(this.users))
                     this.username = undefined
                     this.password = undefined
                     this.email = undefined
                     this.telefono = undefined
                     this.nombre = undefined
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Registro exitoso',
+                        text: '"Usuario registrado exitosamente"',
+                      }) 
                     //window.location = "collection.html"
                 }
-
+                
             }
 
         },
