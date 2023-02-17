@@ -64,7 +64,7 @@
                     <!--Card button-->
                     <div class="card-button"> 
                         <button class="button-button--card btn btn-success" v-if="card.isSeller" @click="comprarCarta(card)">Comprar</button>
-                        <button class="button-button--card btn btn-danger" v-else>Pujar</button>
+                        <button class="button-button--card btn btn-danger" v-else  @click="abrirPuja(card)">Pujar</button>
                     </div> 
                 </div>
                 </div>
@@ -120,7 +120,7 @@
                                 <!--Body Subasta--> 
                                 <div class="modal-body rounded-4 px-4" style="background-color: #D9D9D9 ;" v-if="showPuja"> 
                                     <div class="row justify-content-end   "> 
-                                        <button  @click="cerrarCoins()"
+                                        <button  @click="cerrarPuja()"
                                         type="button" class="btn-close text-end pt-3" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
 
@@ -137,17 +137,17 @@
                                                     <div class="content-card" >
                                                         <!--Card image-->
                                                         <div class="card-image" >
-                                                            <img :src="promoCoins[0].image"  style="height: 8em; object-fit:  scale-down;">
+                                                            <img class="image-image--card" :src="card.image" alt="character" /> 
                                                         </div>
                                                         <!--Card info-->
                                                         <div class="card-info">
                                                             <div class="info-name d-flex flex-row">
                                                                 <p class="name-label--card">Nombre:</p>
-                                                                <p class="name-value--card"><b> Nombree}</b></p>
+                                                                <p class="name-value--card"><b> {{card.name}}</b></p>
                                                             </div>
                                                             <div class="info-rarity d-flex flex-row">
                                                                 <p class="rarity-label--card">Mundo:</p>
-                                                                <p class="rarity-value--card"><b>mundo X</b></p>
+                                                                <p class="rarity-value--card"><b>{{card.location.name}}</b></p>
                                                             </div> 
                                                         </div> 
                                                     </div> 
@@ -160,7 +160,7 @@
                                                                 </div>
                                                                 <div class="row pt-4">
                                                                     <div class="col p-0 m-0">
-                                                                        <h3 class="text-dark text-end">$ 400</h3>
+                                                                        <h3 class="text-dark text-end">$ {{card.price}}</h3>
                                                                     </div>
                                                                     <div class="col px-2 m-0">
                                                                         <img :src="promoCoins[0].image"  style="height: 3em; object-fit:  scale-down;">
@@ -170,11 +170,11 @@
                                                             <!--Puja-->
                                                             <div class="col-6 ">
                                                                 <div class="row">
-                                                                    <h2 class="text-dark text-center"> Precio Actual</h2>
+                                                                    <h2 class="text-dark text-center"> Nueva Puja</h2>
                                                                 </div>
                                                                 <div class="row pt-4">
                                                                     <div class="col p-0 m-0">
-                                                                        <h3 class="text-dark text-end">$ 450</h3>
+                                                                        <h3 class="text-dark text-end">$ {{valorPuja}}</h3>
                                                                     </div>
                                                                     <div class="col px-2 m-0">
                                                                         <img :src="promoCoins[0].image"  style="height: 3em; object-fit:  scale-down;">
@@ -184,11 +184,17 @@
                                                         </div>
                                                         <div class="row text-center pt-5">
                                                             <div class="col-6 rounded-5">
-                                                                 <button class="btn btn-danger">Salir</button>
+                                                                 <button class="btn btn-danger" @click="cerrarPuja()">Salir</button>
                                                             </div> 
                                                             <div class="col-6 rounded-5">
-                                                                <button class="btn btn-success">Pujar</button>
+                                                                <button class="btn btn-success" @click="auction()">Pujar</button>
                                                             </div>
+                                                        </div>
+                                                        <div v-if="error" class="row text-center text-danger pt-5">
+                                                           
+                                                            
+                                                            <h3 class="form-label text-danger" > <i class="fa-solid fa-circle-exclamation text-danger"></i> {{mensaje}}</h3>
+                                                        
                                                         </div>
                                                     </div>
                                                 </div>

@@ -11,7 +11,10 @@ const app = createApp({
         return {
             // cards
             cards: [],
+            card: undefined,
             coinsUser: 0, //
+            valorPuja:0,
+            contPujas: 0,
             showModal: false,
             showCoins:false,
             showPasarela: false,
@@ -126,6 +129,34 @@ const app = createApp({
             this.promoId = index
             this.showPasarela= true
         },
+        abrirPuja(card){  
+            if(this.user.coins > 0 && this.user.coins>card.price){
+                this.contPujas = this.getRandomInt(0, 5);
+                this.valorPuja = card.price + this.getRandomInt(1, 50);
+                this.card = card
+                this.showModal = true
+                this.showPuja= true
+            }else{
+                Swal.fire({
+                    title: 'Coins insuficientes',
+                    text: "no tiene los coins suficientes para realizar la compra",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Comprar Coins'
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.abrirCoins()
+                    }
+                  }) 
+            }
+            
+        },
+        cerrarPuja(){
+            this.showModal = false
+            this.showPuja= false
+        },
         cerrarPasar(){
             this.promoSelect = undefined 
             this.showPasarela= false 
@@ -170,49 +201,62 @@ const app = createApp({
                     }
                   })
             }
+            this.actualizar()
            
         },
 
         // Start the auction
-        auction(card){
-            if(this.user.coins > 0){
-                if(this.user.coins >= card.price){
-                    // Si el valor a pujar es mayor al precio de la carta
-                    if(this.valorPuja > card.price){
-                        card.price = this.valorPuja;
-                        // Mensaje de puja realizada
-                        let numeroPujas = this.getRandomInt(0, 1);
-                        for(let i = 0; i < numeroPujas; i++){
-                            // Puja automática por parte del sistema
-                            setTimeout(() => {
-                                // Aumentando el precio de la carta
-                                card.price += this.getRandomInt(1, 10);
-                                // Mensaje de puja realizada
-                            }, 10000);
-                        }
-                        // Si no hay pujas automáticas
-                        if(numeroPujas === 0){
-                            setTimeout(() => {
-                                // Comprando la carta
-                                card.fechaCompra = new Date().toLocaleString();
-                                // Restando de las coins del usuario el precio de la carta
-                                this.user.coins -= card.price;
-                                // Agregando la carta al usuario
-                                this.user.cards.push(card);
-                                // Actualizando el local storage
-                                localStorage.setItem('user', JSON.stringify(this.user));
-                                // Mensaje de carta comprada
-                            }, 10000);
+        auction(){ 
+            let card = this.card 
+
+                if( this.user.coins-this.valorPuja>=0  && this.user.coins-card.price>=0){
+                    if(this.user.coins >= card.price){
+                        console.log("Si el valor a pujar es mayor al precio de la carta")
+                        if(this.valorPuja > card.price){
+                            card.price = this.valorPuja;
+                            console.log("Mensaje de puja realizada")
+                            if(this.contPujas>0){ 
+                                console.log("Puja automática por parte del sistema")
+                                setTimeout(() => {
+                                    console.log("Aumentando el precio de la carta")
+                                    this.contPujas--
+                                    card.price = this.valorPuja;
+                                    this.valorPuja = card.price + this.getRandomInt(1, 50);
+                                    console.log("Mensaje de puja realizada")
+                                }, 3000);
+                            }else{
+                                this.cerrarPuja()
+                                setTimeout(() => {
+                                    // Comprando la carta
+                                    card.fechaCompra = new Date().toLocaleString();
+                                    // Restando de las coins del usuario el precio de la carta
+                                    this.user.coins -= card.price;
+                                    // Agregando la carta al usuario
+                                    this.user.cards.push(card);
+                                    // Actualizando el local storage
+                                    localStorage.setItem('user', JSON.stringify(this.user));
+                                    // Mensaje de carta comprada
+                                }, 4000);
+                                Swal.fire(
+                                    'Subasta terminada!',
+                                    '¿Ha ganado la subaste, Felicidades!',
+                                    'success'
+                                  )
+                            }
                         }
                     }
+                    else{
+                        this.error=true
+                        this.mensaje= "Coins insuficientes"
+                    }
+                } 
+                else {
+                    this.error=true
+                    this.mensaje= "Coins insuficientes"
                 }
-                else{
-                    // Mensaje de coins insuficientes
-                }
-            } 
-            else {
-                // Mensaje de coins
-            }
+                
+                this.valorPuja = card.price + this.getRandomInt(1, 50);
+             
         },
 
         comprarCarta(card){ 

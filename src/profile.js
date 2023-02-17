@@ -74,16 +74,7 @@ const app = createApp({
                     this.cards.push(index)
                 }
             }) 
-        }
-    },
-     //asegurarse que esté un usuario logueado
-    created(){
-        if(this.user ===null){
-            window.location = "index.html"
-        } 
-        this.filtro()
-    }
-    methods: {
+        },
         // Toggle the history
         toggleHistory() {
             // Check if the user has cards
@@ -97,6 +88,13 @@ const app = createApp({
             }
         }
     },
+     //asegurarse que esté un usuario logueado
+    created(){
+        if(this.user ===null){
+            window.location = "index.html"
+        } 
+        this.filtro()
+    } 
 });
 
 // Mount the app
