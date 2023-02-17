@@ -42,9 +42,13 @@
 }
 
 .cards-content{
-    height: 60%;
+    height: 55%;
 }
 
 .content-card{
     min-height: 300px;
+}
+
+.cards-title{
+    margin-top: 30px;
 }

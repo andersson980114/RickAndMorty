@@ -21,10 +21,19 @@
             <div class="cards-head w-100 d-flex flex-row justify-content-between p-3" > 
                 <!--Username-->
                 <h3 class="head-username mx-4 pt-2 ">{{user.username}}</h3>
-                <!--Back button-->
-                <a class="head-back btn btn-danger text-light" @click="logout()">
-                    Logout
-                </a>
+                <!--Coins data-->
+                <div class="head-coins d-flex flex-row ">
+                    <!--Back button-->
+                    <a class="head-back btn btn-danger text-light mx-3" @click="logout()">
+                        Logout
+                    </a>
+                    <div class="coins-info">
+                        <h4 class="info-value--coins text-success">$ {{user.coins}}</h4> 
+                    </div>
+                    <div class="coins-image">
+                        <span class="image-image--coins"/>
+                    </div>
+                </div>
             </div>
             <!--Cards options-->
             <div class="cards-options container d-flex flex-row mx-5">
