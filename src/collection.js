@@ -245,7 +245,7 @@ const app = createApp({
                                     // Actualizando el local storage
                                     localStorage.setItem('user', JSON.stringify(this.user));
                                     // Mensaje de carta comprada
-                                }, 4000);
+                                }, 40);
                                 Swal.fire(
                                     'Subasta terminada!',
                                     '¿Ha ganado la subaste, Felicidades!',
