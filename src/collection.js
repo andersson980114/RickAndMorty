@@ -15,6 +15,7 @@ const app = createApp({
             showModal: false,
             showCoins:false,
             showPasarela: false,
+            showPuja:false,
             promoSelect: undefined,
             metodo: undefined,
             numTarjet: undefined,
