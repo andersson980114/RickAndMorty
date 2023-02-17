@@ -210,19 +210,20 @@ const app = createApp({
             let card = this.card 
 
                 if( this.user.coins-this.valorPuja>=0  && this.user.coins-card.price>=0){
+                    console.log("coins suficientes")
                     if(this.user.coins >= card.price){
-                        console.log("Si el valor a pujar es mayor al precio de la carta")
+                        //console.log("Si el valor a pujar es mayor al precio de la carta")
                         if(this.valorPuja > card.price){
                             card.price = this.valorPuja;
-                            console.log("Mensaje de puja realizada")
+                            //console.log("Mensaje de puja realizada")
                             if(this.contPujas>0){ 
-                                console.log("Puja automática por parte del sistema")
+                               // console.log("Puja automática por parte del sistema")
                                 setTimeout(() => {
                                     console.log("Aumentando el precio de la carta")
                                     this.contPujas--
                                     card.price = this.valorPuja;
                                     this.valorPuja = card.price + this.getRandomInt(1, 50);
-                                    console.log("Mensaje de puja realizada")
+                                    //console.log("Mensaje de puja realizada")
                                 }, 3000);
                             }else{
                                 this.cerrarPuja()
@@ -246,16 +247,24 @@ const app = createApp({
                         }
                     }
                     else{
+                        card.price = this.valorPuja;
+                        this.valorPuja = 0;
                         this.error=true
                         this.mensaje= "Coins insuficientes"
                     }
                 } 
                 else {
+                    
+                    card.price = this.valorPuja;
+                    this.valorPuja = 0;
                     this.error=true
                     this.mensaje= "Coins insuficientes"
                 }
-                
+            
+                if(error === false){
+                    
                 this.valorPuja = card.price + this.getRandomInt(1, 50);
+                }
              
         },
 
