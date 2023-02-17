@@ -213,7 +213,7 @@
                                 <!--Body pasarela--> 
                                 <div v-if="showPasarela">
                                     <div class="row  justify-content-center px-0  ">
-                                        <div class="col-lg-3 col-md-6 col-sm-4 rounded-4  px-4" style="background-color: #D9D9D9 ;">
+                                        <div class="col-lg-5 col-md-8 col-sm-4 rounded-4  px-4" style="background-color: #D9D9D9 ;">
                                             <div class="row justify-content-end   "> 
                                                 <button  @click="cerrarPasar()"
                                                 type="button" class="btn-close text-end pt-3 " data-bs-dismiss="modal" aria-label="Close"></button>
@@ -224,13 +224,13 @@
                                             <br>
                                             <div class="form-outline mb-2 px-4  ">
                                                 <label class="form-label text-dark">Metodo de Pago</label>
-                                                <div class="row">
-                                                    <div class="col">
+                                                <div class="row align-items-center">
+                                                    <div class="col text-center">
                                                         <button class="btn btn-light" @click="metodo='Master Card'">
                                                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/200px-MasterCard_Logo.svg.png" width="60" />
                                                         </button>
                                                     </div>
-                                                    <div class="col">
+                                                    <div class="col text-center">
                                                         <button class="btn btn-light" @click="metodo='Visa'">
                                                             <img src="https://laruecol.com/wp-content/uploads/2022/08/Visa-Logo-1976.png" width="60" />
                                                         </button>
