@@ -18,25 +18,22 @@
         <!--Available cards-->
         <section class="main-cards">
             <!--Username and coins data-->
-            <div class="cards-head w-100 d-flex flex-row justify-content-between p-3" >
-                 <div>
-                    <!--Back button-->
-                    <a class="head-back btn btn-danger text-light" @click="logout()">
-                        Logout
-                    </a>
-                    <!--Username-->
-                    <h3 class="head-username mx-4 pt-2 ">{{user.username}}</h3>
-                 </div>
-                 
-            </div>
-            <!--Cards section title-->
-            <div class="cards-title px-5">
-                <h3 class="text-light"><b>Cartas disponibles:</b></h3>
+            <div class="cards-head w-100 d-flex flex-row justify-content-between p-3" > 
+                <!--Username-->
+                <h3 class="head-username mx-4 pt-2 ">{{user.username}}</h3>
+                <!--Back button-->
+                <a class="head-back btn btn-danger text-light" @click="logout()">
+                    Logout
+                </a>
             </div>
             <!--Cards options-->
             <div class="cards-options container d-flex flex-row mx-5">
                 <button class="mx-2 btn btn-danger" @click="toggleHistory">Historial</button>
                 <a href="collection.html" class="mx-2 btn btn-primary">Comprar</a>
+            </div>
+            <!--Cards section title-->
+            <div class="cards-title px-5">
+                <h3 class="text-light"><b>Cartas disponibles:</b></h3>
             </div>
             <!--Cards-->
             <div class="cards-content m-5">

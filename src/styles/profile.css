@@ -18,13 +18,13 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    overflow-y: scroll;
 }
 
 .screen-close{
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    padding: 10px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
 }
 
 .screen-title{
@@ -39,4 +39,12 @@
     justify-content: center;
     align-items: center;
     width: 80%;
+}
+
+.cards-content{
+    height: 60%;
+}
+
+.content-card{
+    min-height: 300px;
 }
