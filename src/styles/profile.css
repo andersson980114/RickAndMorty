@@ -1,0 +1,42 @@
+.main-history{
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff71;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.history-screen{
+    width: 700px;
+    height: 500px;
+    position: relative;
+    background-color: #ffffff;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.screen-close{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+}
+
+.screen-title{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+.screen-table{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+}
