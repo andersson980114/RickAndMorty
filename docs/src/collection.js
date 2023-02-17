@@ -363,7 +363,7 @@ const app = createApp({
     created(){
         //asegurarse que esté un usuario
         if(this.user ===null){
-            window.location = "index.html"
+            window.location = "../index.html"
         } 
     }
 });

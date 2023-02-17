@@ -23,9 +23,7 @@ const app = createApp({
         }
     },
     methods: {
-
-  
-        //actualiza los datos del usuario en el local storage y cierra sesión
+        // Actualiza los datos del usuario en el local storage y cierra sesión
         logout(){
             this.actualizar()
             Swal.fire({
@@ -40,7 +38,7 @@ const app = createApp({
                 if (result.isConfirmed) { 
                     this.user = null
                     localStorage.setItem('user', JSON.stringify(this.user))
-                    window.location = "index.html"
+                    window.location = "../index.html"
                 }
               }) 
         },
@@ -62,7 +60,7 @@ const app = createApp({
             this.user.cards.map(index => {
                 const results = this.user.cards.filter( carta => carta.id === index.id).length
                  
-                
+
                 if(results){
                     index.cantidad = results -1//la cantidad de cartas
                     const resulte = this.cards.filter(copia => copia.id === index.id ).length //asegurarno que no esté repetida en el nuevo filtro
@@ -88,10 +86,10 @@ const app = createApp({
             }
         }
     },
-     //asegurarse que esté un usuario logueado
+    // Asegurarse que esté un usuario logueado
     created(){
         if(this.user ===null){
-            window.location = "index.html"
+            window.location = "../index.html"
         } 
         this.filtro()
     } 

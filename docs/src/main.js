@@ -27,7 +27,7 @@ const app = new Vue({
                             localStorage.setItem('user', JSON.stringify(user))
                             this.logueo = true
                             this.error=false 
-                            window.location = "profile.html"
+                            window.location = "./public/profile.html"
                         
                         }  
                     }
@@ -59,7 +59,7 @@ const app = new Vue({
                 if(this.users != null){
                     this.users.map( user => {
                         if(this.username === user.username && this.nombre === user.nombre && this.email === user.email ){
-                            this.registrado = true 
+                            this.registrado = true
                         }
                     })
                 }
