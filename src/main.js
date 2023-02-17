@@ -27,7 +27,7 @@ const app = new Vue({
                             localStorage.setItem('user', JSON.stringify(user))
                             this.logueo = true
                             this.error=false 
-                            window.location = "collection.html"
+                            window.location = "profile.html"
                         
                         }  
                     }

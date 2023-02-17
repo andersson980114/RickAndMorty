@@ -19,12 +19,18 @@
         <section class="main-cards">
             <!--Username and coins data-->
             <div class="cards-head w-100 d-flex flex-row justify-content-between p-3" >
-                <!--Username-->
-                <h3 class="head-username">{{user.username}}</h3>
+                 <div>
+                    <!--Back button-->
+                    <a class="head-back btn btn-danger text-light" @click="logout()">
+                        Logout
+                    </a>
+                    <!--Username-->
+                    <h3 class="head-username mx-4 pt-2 ">{{user.username}}</h3>
+                 </div>
                 <!--Coins data-->
                 <div class="head-coins d-flex flex-row ">
                     <div class="coins-info">
-                        <h4 class="info-value--coins text-success">$00</h4> 
+                        <h4 class="info-value--coins text-success">$ {{user.coins}}</h4> 
                         <a class="info-add--coins btn btn-success rounded-5" @click="abrirCoins()">+Coins</a>
                     </div>
                     <div class="coins-image">
@@ -44,10 +50,15 @@
             <!--Cards-->
             <div class="cards-content m-5">
                 <!--Card to buy-->
-                <div class="content-card" v-for="card in user.cards">
+                <div class="content-card" v-for="card in cards">
                     <!--Card image-->
-                    <div class="card-image">
-                        <img class="image-image--card" :src="card.image" alt="character" />
+                    <div class="card-image justify-content-between">
+                        <div class="blockquote-custom-icon bg-primary shadow-1-strong" v-if="card.cantidad"> 
+                            +{{card.cantidad}}
+                        </div> 
+                        <div class="card-image "> 
+                            <img class="image-image--card" :src="card.image" alt="character" />
+                        </div>
                     </div>
                     <!--Card info-->
                     <div class="card-info">
@@ -70,6 +81,127 @@
                 </div>
             </div>
         </section>
+
+
+        <!--Modales-->
+        <!-- Modal Coins -->
+        <div v-if="showModal">
+            <transition name="modal ">
+                <div class="modal-mask px-5">
+                    <div class="modal-wrapper px-5"> 
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content  px-4"  >
+                                <!-- body coins-->
+                                <div class="modal-body rounded-4 px-4" style="background-color: #D9D9D9 ;" v-if="showCoins"> 
+                                    <div class="row justify-content-end   "> 
+                                        <button  @click="cerrarCoins()"
+                                        type="button" class="btn-close text-end pt-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+
+                                    <div  class="col text-dark">
+                                        <h2 style="text-align: center;">Comprar Coins</h2>
+                                    </div>  
+                                    <br>
+
+                                    <div > 
+                                        <div class="row  justify-content-center "  >
+                                            <div class="col-12 col-md-11 col-lg-7">
+                                                <div class="row justify-content-center"> 
+                                                    <div class="col-12 col-md-5 col-lg-4" v-for="(coin, index) in promoCoins" :key="index"  >
+                                                        <div class="row px-4 mx-4  px-md-0 mx-md-0 pt-2 pb-4">
+                                                            <div class="card col-lg-12 col-md-10 col-8 text-center px-2 text-dark rounded-5" style="background-color: #AFADAD;  " > 
+                                                                <img :src="coin.image"  style="height: 8em; object-fit:  scale-down;">
+                                                                <div class="card-body">
+                                                                    <h5 class="card-title">{{coin.cantidad}} coins</h6>
+                                                                    <h6 class="card-text">$ {{coin.valor}} USD</h5>
+                                                                    <a href="#" class="btn btn-success rounded-5" @click="abrirPasar(coin)">comprar</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                        
+                                </div>
+
+                                <!--Body pasarela--> 
+                                <div v-if="showPasarela">
+                                    <div class="row  justify-content-center px-0  ">
+                                        <div class="col-lg-3 col-md-6 col-sm-4 rounded-4  px-4" style="background-color: #D9D9D9 ;">
+                                            <div class="row justify-content-end   "> 
+                                                <button  @click="cerrarPasar()"
+                                                type="button" class="btn-close text-end pt-3 " data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div  class="col text-dark">
+                                                <h2 style="text-align: center;">Metodo de Pago</h2>
+                                            </div> 
+                                            <br>
+                                            <div class="form-outline mb-2 px-4  ">
+                                                <label class="form-label text-dark">Metodo de Pago</label>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <button class="btn btn-light" @click="metodo='Master Card'">
+                                                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/200px-MasterCard_Logo.svg.png" width="60" />
+                                                        </button>
+                                                    </div>
+                                                    <div class="col">
+                                                        <button class="btn btn-light" @click="metodo='Visa'">
+                                                            <img src="https://laruecol.com/wp-content/uploads/2022/08/Visa-Logo-1976.png" width="60" />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <input placeholder="" v-model="metodo" disabled="disabled"
+                                                type="text"  class="form-control form-control-sm borde mt-2" />
+                                                
+                                            </div>
+                                            <div class="form-outline mb-2 px-4  ">
+                                                <label class="form-label text-dark">Numero de la Tarjeta</label>
+                                                <input placeholder="xxxx-xxxx-xxxx-xxxx" v-model="numTarjet"
+                                                type="number"  class="form-control form-control-sm borde" />
+                                            </div>
+                                            <div class="form-outline mb-2 px-4  ">
+                                                <label class="form-label text-dark" for="typeEmailX-2">Fecha de Caducidad</label> 
+                                                <div class=""> 
+                                                    <input id="startDate" class="form-control" type="date" v-model="fechaCad"/>
+                                                    <span id="startDateSelected"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-outline mb-2 px-4  ">
+                                                <label class="form-label text-dark" >CVV</label>
+                                                <input placeholder="xxxx" v-model="ccv"
+                                                type="number"  class="form-control form-control-sm borde" />
+                                            </div>
+                                            <div class="form-outline mb-2 px-4  ">
+                                                <label class="form-label text-dark" >Valor</label>
+                                                <input placeholder="$000" v-model="valor"  disabled="disabled"
+                                                type="number"  class="form-control form-control-sm borde" />
+                                            </div>
+                                            <div v-if="error" class="form-outline mb-4 text-danger">
+                                                <i class="fa-solid fa-circle-exclamation text-danger"></i> 
+                                                <label class="form-label text-danger" > {{mensaje}}</label>
+                                            
+                                            </div>
+                                            <div class="form-outline mb-2 px-4 text-center ">
+                                                <a href="#" class="btn btn-info text-white" @click="pasaFinish()">Confirmar</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                          
+
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </transition>
+        </div>
+         
+
+
     </main>
     <!--Bootstrap scripts-->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>

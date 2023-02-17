@@ -26,7 +26,7 @@
                 <!--Coins data-->
                 <div class="head-coins d-flex flex-row ">
                     <div class="coins-info">
-                        <h4 class="info-value--coins text-success">$00</h4> 
+                        <h4 class="info-value--coins text-success">$ {{user.coins}}</h4> 
                         <a class="info-add--coins btn btn-success rounded-5" @click="abrirCoins()">+Coins</a>
                     </div>
                     <div class="coins-image">
@@ -201,5 +201,5 @@
 <!--Vue scripts-->
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <!--Custom scripts-->
-<script src="../src/collection.js"></script>
+<script src="../src/collection.js"></script> 
 </html>

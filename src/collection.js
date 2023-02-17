@@ -190,6 +190,7 @@ const app = createApp({
                       }).then((result) => {
                         if (result.isConfirmed) {
                             card.fechaCompra = today.toLocaleString()
+                            card.cantidad = 1
                             this.mensaje= "felicidades, carta comprada"
                             this.user.coins -= card.price
                             this.user.cards.push(card)
@@ -238,21 +239,9 @@ const app = createApp({
         //actualiza los datos del usuario en el local storage y cierra sesión
         logout(){
             this.actualizar()
-            Swal.fire({
-                title: 'Cerrar sesión',
-                text: "¿Está usted seguro que quiere cerrar sesión?",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si estoy seguro'
-              }).then((result) => {
-                if (result.isConfirmed) { 
-                    this.user = null
-                    localStorage.setItem('user', JSON.stringify(this.user))
-                    window.location = "index.html"
-                }
-              }) 
+            localStorage.setItem('user', JSON.stringify(this.user))
+            window.location = "profile.html"
+                
         },
         //metodo usado para actualizar los datos del usuario en el local storage
         actualizar(){
@@ -270,10 +259,10 @@ const app = createApp({
       
     },
     created(){
-        //asegurarse que esté un usuario logueado
+        //asegurarse que esté un usuario
         if(this.user ===null){
             window.location = "index.html"
-        }
+        } 
     }
 });
 
