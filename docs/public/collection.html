@@ -262,20 +262,16 @@
                                                 <input placeholder="$000" v-model="valor"  disabled="disabled"
                                                 type="number"  class="form-control form-control-sm borde" />
                                             </div>
-                                            <div v-if="error" class="form-outline mb-4 text-danger">
-                                                <i class="fa-solid fa-circle-exclamation text-danger"></i> 
-                                                <label class="form-label text-danger" > {{mensaje}}</label>
+                                            <div v-if="error" class="form-outline mb-1 pb-0 text-danger"> 
+                                                <p class="form-label text-danger text-center" >  <i class="fa-solid fa-circle-exclamation text-danger"></i> {{mensaje}}</p>
                                             
                                             </div>
-                                            <div class="form-outline mb-2 px-4 text-center ">
-                                                <a href="#" class="btn btn-info text-white" @click="pasaFinish()">Confirmar</a>
-
+                                            <div class="form-outline mb-1 px-4 pt-0 text-center ">
+                                                <a href="#" class="btn btn-info text-white" @click="pasaFinish()">Confirmar</a> 
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                          
-
+                                </div> 
                             </div>
                         </div> 
                     </div>

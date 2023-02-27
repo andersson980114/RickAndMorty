@@ -27,7 +27,11 @@ const app = new Vue({
                             localStorage.setItem('user', JSON.stringify(user))
                             this.logueo = true
                             this.error=false 
-                            window.location = "./public/profile.html"
+                            if(user.cards){
+                                if(user.cards.length > 0){
+                                    window.location = user.cards.length > 0 ? "./public/collection.html" : "./public/profile.html"
+                                }
+                            }
                         
                         }  
                     }
