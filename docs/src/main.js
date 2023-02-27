@@ -28,9 +28,7 @@ const app = new Vue({
                             this.logueo = true
                             this.error=false 
                             if(user.cards){
-                                if(user.cards.length > 0){
-                                    window.location = user.cards.length > 0 ? "./public/collection.html" : "./public/profile.html"
-                                }
+                                window.location = user.cards.length > 0 ? "./public/profile.html": "./public/collection.html"
                             }
                         
                         }  
